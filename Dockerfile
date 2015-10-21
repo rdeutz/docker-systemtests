@@ -30,7 +30,7 @@ ADD config/apache2.conf /etc/apache2/apache2.conf
 # Add our www-data user (needs uid / gid 1000)
 RUN useradd -s /usr/sbin/nologin -d /tests/www joomla
 
-RUN mkdir /tests/www && chown joomla /tests/www
+RUN mkdir -p /tests/www && chown joomla /tests/www
 
 # Update apache envvars
 ADD config/envvars /etc/apache2/envvars
