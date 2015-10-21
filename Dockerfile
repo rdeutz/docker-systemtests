@@ -13,10 +13,11 @@ RUN /etc/my_init.d/00_regen_ssh_host_keys.sh
 RUN apt-get update
 
 # we use the enviroment variable to stop debconf from asking questions..
-RUN DEBIAN_FRONTEND='noninteractive' apt-get install -y mysql-server apache2 php5 php5-cli php5-mysql php-pear mysql-client php5-xdebug php5-curl curl php5-mcrypt pear-channels wget unzip git fluxbox firefox openjdk-7-jre
+RUN DEBIAN_FRONTEND='noninteractive' apt-get install -y mysql-server apache2 php5 php5-cli php5-mysql php-pear mysql-client php5-xdebug php5-curl curl php5-mcrypt pear-channels wget unzip git fluxbox firefox openjdk-7-jre xvfb \
+	dbus libasound2 libqt4-dbus libqt4-network libqtcore4 libqtgui4 libpython2.7 libqt4-xml libaudio2 fontconfig liblcms1 nano
 
 # package install is finished, clean up
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN apt-get clean # && rm -rf /var/lib/apt/lists/*
 
 # Install phing
 RUN pear config-set preferred_state alpha
