@@ -39,7 +39,8 @@ ADD config/apache2.conf /etc/apache2/apache2.conf
 
 # Apache site conf
 
-#ADD config/000-default.conf /etc/apache2/sites-available/000-default.conf
+ADD config/000-default.conf /etc/apache2/sites-available/000-default.conf
+RUN a2ensite 000-default.conf
 
 # php.ini Apache
 ADD config/php.ini-apache /etc/php5/apache2/php.ini
