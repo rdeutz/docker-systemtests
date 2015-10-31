@@ -1,5 +1,5 @@
 FROM phusion/baseimage:latest
-MAINTAINER Yves Hoppe <yves@compojoom.com>
+MAINTAINER Robert Deutz <rdeutz@googlemail.com>
 
 # Set correct environment variables.
 ENV HOME /root
@@ -29,16 +29,17 @@ RUN pear install --alldeps Console_CommandLine
 ADD config/apache2.conf /etc/apache2/apache2.conf
 
 # Add our www-data user (needs uid / gid 1000)
-RUN useradd -s /usr/sbin/nologin -d /tests/www joomla
+# RUN useradd -s /usr/sbin/nologin -d /tests/www joomla
 
 # Create testing directory
-RUN mkdir -p /tests/www
+#RUN mkdir -p /tests/www
 
 # Update apache envvars
-ADD config/envvars /etc/apache2/envvars
+# ADD config/envvars /etc/apache2/envvars
 
 # Apache site conf
-ADD config/000-default.conf /etc/apache2/sites-available/000-default.conf
+
+#ADD config/000-default.conf /etc/apache2/sites-available/000-default.conf
 
 # php.ini Apache
 ADD config/php.ini-apache /etc/php5/apache2/php.ini
@@ -61,12 +62,12 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=bin --file
 RUN composer self-update
 
 # For caching, not so many pulls every composer install / update
-RUN composer global require codeception/codeception:2.1
-RUN composer global require codegyre/robo:0.5.*
-RUN composer global require joomla-projects/robo:dev-master
-RUN composer global require joomla-projects/selenium-server-standalone:v2.47.1
-RUN composer global require fzaninotto/faker:^1.5
-RUN composer global require yvesh/jbuild:dev-master
+#RUN composer global require codeception/codeception:2.1
+#RUN composer global require codegyre/robo:0.5.*
+#RUN composer global require joomla-projects/robo:dev-master
+#RUN composer global require joomla-projects/selenium-server-standalone:v2.47.1
+#RUN composer global require fzaninotto/faker:^1.5
+#RUN composer global require yvesh/jbuild:dev-master
 
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init"]
