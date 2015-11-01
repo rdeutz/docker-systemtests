@@ -19,23 +19,8 @@ RUN DEBIAN_FRONTEND='noninteractive' apt-get install -y mysql-server apache2 php
 # package install is finished, clean up
 RUN apt-get clean # && rm -rf /var/lib/apt/lists/*
 
-# Install phing
-RUN pear config-set preferred_state alpha
-RUN pear install --alldeps PHP_CodeSniffer-1.5.3
-RUN pear install --alldeps phing/phing
-RUN pear install --alldeps Console_CommandLine
-
 # Apache conf
 ADD config/apache2.conf /etc/apache2/apache2.conf
-
-# Add our www-data user (needs uid / gid 1000)
-# RUN useradd -s /usr/sbin/nologin -d /tests/www joomla
-
-# Create testing directory
-#RUN mkdir -p /tests/www
-
-# Update apache envvars
-# ADD config/envvars /etc/apache2/envvars
 
 # Apache site conf
 
@@ -46,29 +31,15 @@ RUN a2ensite 000-default.conf
 ADD config/php.ini-apache /etc/php5/apache2/php.ini
 
 # install service files for runit
-ADD config/mysqld.service /etc/service/mysqld/run
-ADD config/apache2.service /etc/service/apache2/run
+#ADD config/mysqld.service /etc/service/mysqld/run
+#ADD config/apache2.service /etc/service/apache2/run
 
-RUN chmod a+x /etc/service/mysqld/run
-RUN chmod a+x /etc/service/apache2/run
+#RUN chmod a+x /etc/service/mysqld/run
+#RUN chmod a+x /etc/service/apache2/run
 
 # clean up tmp files (we don't need them for the image)
 RUN rm -rf /tmp/* /var/tmp/*
 
-# Coding standards
-RUN git clone https://github.com/joomla/coding-standards.git `pear config-get php_dir`/PHP/CodeSniffer/Standards/Joomla
-
 # Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=bin --filename=composer
 RUN composer self-update
-
-# For caching, not so many pulls every composer install / update
-#RUN composer global require codeception/codeception:2.1
-#RUN composer global require codegyre/robo:0.5.*
-#RUN composer global require joomla-projects/robo:dev-master
-#RUN composer global require joomla-projects/selenium-server-standalone:v2.47.1
-#RUN composer global require fzaninotto/faker:^1.5
-#RUN composer global require yvesh/jbuild:dev-master
-
-# Use baseimage-docker's init system.
-CMD ["/sbin/my_init"]
