@@ -1,4 +1,4 @@
-FROM phusion/baseimage:latest
+FROM ubuntu:latest
 MAINTAINER Robert Deutz <rdeutz@googlemail.com>
 
 # Set correct environment variables.
